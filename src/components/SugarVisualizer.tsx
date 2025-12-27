@@ -90,7 +90,7 @@ export const SugarVisualizer = () => {
       <footer className="border-t border-border bg-card/30 mt-12">
         <div className="container mx-auto px-4 py-6 text-center text-sm text-muted-foreground">
           <p>Visualize your sugar intake with familiar Indian tea glasses ☕
-~Built by nick · GitHub</p>
+~Built by nick · <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">GitHub</a></p>
         </div>
       </footer>
     </div>;
