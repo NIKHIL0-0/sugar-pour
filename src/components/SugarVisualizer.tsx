@@ -3,25 +3,23 @@ import { SugarInput } from "./SugarInput";
 import { GlassGrid, GLASS_CAPACITY_ML, SUGAR_DENSITY } from "./GlassGrid";
 import { StatsPanel } from "./StatsPanel";
 import { GlassWater, Info } from "lucide-react";
-
 export const SugarVisualizer = () => {
   const [sugarGrams, setSugarGrams] = useState<number>(0);
-
   const calculations = useMemo(() => {
     const sugarMl = sugarGrams * SUGAR_DENSITY;
     const totalGlasses = sugarMl / GLASS_CAPACITY_ML;
-    
     let scale = 1;
     if (totalGlasses > 10) {
       const n = Math.floor(Math.log10(totalGlasses)) - 1;
       scale = Math.pow(10, Math.max(0, n));
     }
-
-    return { sugarMl, totalGlasses, scale };
+    return {
+      sugarMl,
+      totalGlasses,
+      scale
+    };
   }, [sugarGrams]);
-
-  return (
-    <div className="min-h-screen bg-background">
+  return <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="container mx-auto px-4 py-4 md:py-6">
@@ -49,16 +47,9 @@ export const SugarVisualizer = () => {
         </section>
 
         {/* Stats Panel */}
-        {sugarGrams > 0 && (
-          <section className="max-w-4xl mx-auto animate-sugar-pour">
-            <StatsPanel
-              sugarGrams={sugarGrams}
-              sugarMl={calculations.sugarMl}
-              totalGlasses={calculations.totalGlasses}
-              scale={calculations.scale}
-            />
-          </section>
-        )}
+        {sugarGrams > 0 && <section className="max-w-4xl mx-auto animate-sugar-pour">
+            <StatsPanel sugarGrams={sugarGrams} sugarMl={calculations.sugarMl} totalGlasses={calculations.totalGlasses} scale={calculations.scale} />
+          </section>}
 
         {/* Glass Visualization */}
         <section className="max-w-5xl mx-auto">
@@ -98,9 +89,9 @@ export const SugarVisualizer = () => {
       {/* Footer */}
       <footer className="border-t border-border bg-card/30 mt-12">
         <div className="container mx-auto px-4 py-6 text-center text-sm text-muted-foreground">
-          <p>Visualize your sugar intake with familiar Indian tea glasses ☕</p>
+          <p>Visualize your sugar intake with familiar Indian tea glasses ☕
+~Built by nick · GitHub</p>
         </div>
       </footer>
-    </div>
-  );
+    </div>;
 };
