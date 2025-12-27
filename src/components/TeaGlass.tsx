@@ -38,59 +38,158 @@ export const TeaGlass = ({
         <svg 
           viewBox="0 0 100 140" 
           className="absolute inset-0 w-full h-full"
-          style={{ filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.1))' }}
+          style={{ filter: 'drop-shadow(0 6px 12px rgba(0,0,0,0.15))' }}
         >
-          {/* Glass outline */}
-          <path
-            d="M15 5 L12 130 Q12 135 17 135 L83 135 Q88 135 88 130 L85 5 Q85 2 80 2 L20 2 Q15 2 15 5"
-            fill="none"
-            stroke="hsl(var(--glass-border))"
-            strokeWidth="2"
-            className="opacity-60"
-          />
+          <defs>
+            {/* Glass gradient for realistic transparency */}
+            <linearGradient id={`glass-gradient-${index}`} x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="hsl(var(--glass-shine))" stopOpacity="0.3" />
+              <stop offset="15%" stopColor="hsl(var(--glass-border))" stopOpacity="0.1" />
+              <stop offset="50%" stopColor="hsl(var(--glass-border))" stopOpacity="0.05" />
+              <stop offset="85%" stopColor="hsl(var(--glass-border))" stopOpacity="0.1" />
+              <stop offset="100%" stopColor="hsl(var(--glass-shine))" stopOpacity="0.2" />
+            </linearGradient>
+            
+            {/* Sugar crystal gradient */}
+            <linearGradient id={`sugar-gradient-${index}`} x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="hsl(var(--sugar-granule))" stopOpacity="1" />
+              <stop offset="30%" stopColor="hsl(var(--sugar-fill))" stopOpacity="0.95" />
+              <stop offset="100%" stopColor="hsl(var(--sugar-fill))" stopOpacity="0.9" />
+            </linearGradient>
+            
+            {/* Clip path for glass interior */}
+            <clipPath id={`glass-clip-${index}`}>
+              <path d="M18 12 L15 125 Q15 130 20 130 L80 130 Q85 130 85 125 L82 12 Q82 8 78 8 L22 8 Q18 8 18 12" />
+            </clipPath>
+          </defs>
           
-          {/* Sugar fill */}
+          {/* Glass body with fluted ridges */}
+          <g>
+            {/* Outer glass shape - slightly tapered like real chai glass */}
+            <path
+              d="M16 8 L13 128 Q13 134 20 134 L80 134 Q87 134 87 128 L84 8 Q84 4 78 4 L22 4 Q16 4 16 8"
+              fill={`url(#glass-gradient-${index})`}
+              stroke="hsl(var(--glass-border))"
+              strokeWidth="1.5"
+              className="opacity-70"
+            />
+            
+            {/* Vertical fluted ridges - characteristic of Indian chai glass */}
+            {[20, 28, 36, 44, 52, 60, 68, 76].map((x, i) => (
+              <path
+                key={i}
+                d={`M${x + 2} 10 L${x} 128`}
+                stroke="hsl(var(--glass-border))"
+                strokeWidth="0.8"
+                className="opacity-20"
+              />
+            ))}
+            
+            {/* Inner ridge shadows for depth */}
+            {[24, 40, 56, 72].map((x, i) => (
+              <path
+                key={`shadow-${i}`}
+                d={`M${x} 12 L${x - 1} 126`}
+                stroke="hsl(var(--glass-shine))"
+                strokeWidth="1.2"
+                className="opacity-15"
+              />
+            ))}
+          </g>
+          
+          {/* Sugar fill with crystal texture */}
           {clampedFill > 0 && !isScaleLabel && (
             <g className="animate-sugar-fill origin-bottom">
-              <clipPath id={`glass-clip-${index}`}>
-                <path d="M14 8 L12 128 Q12 133 17 133 L83 133 Q88 133 88 128 L86 8 Q86 6 82 6 L18 6 Q14 6 14 8" />
-              </clipPath>
+              {/* Main sugar body */}
               <rect
-                x="12"
-                y={133 - (clampedFill * 1.27)}
-                width="76"
-                height={clampedFill * 1.27}
-                fill="hsl(var(--sugar-fill))"
+                x="15"
+                y={130 - (clampedFill * 1.22)}
+                width="70"
+                height={clampedFill * 1.22}
+                fill={`url(#sugar-gradient-${index})`}
                 clipPath={`url(#glass-clip-${index})`}
                 className="transition-all duration-500 ease-out"
               />
-              {/* Sugar surface texture */}
+              
+              {/* Sugar surface - slightly uneven top */}
               <ellipse
                 cx="50"
-                cy={133 - (clampedFill * 1.27) + 3}
-                rx="35"
-                ry="4"
+                cy={130 - (clampedFill * 1.22) + 2}
+                rx="32"
+                ry="5"
                 fill="hsl(var(--sugar-granule))"
                 clipPath={`url(#glass-clip-${index})`}
-                className="transition-all duration-500 ease-out"
+                className="transition-all duration-500 ease-out opacity-80"
               />
+              
+              {/* Crystal sparkle highlights */}
+              {clampedFill > 10 && (
+                <>
+                  <circle cx="30" cy={130 - (clampedFill * 0.6)} r="1.5" fill="white" className="opacity-60" />
+                  <circle cx="55" cy={130 - (clampedFill * 0.4)} r="1" fill="white" className="opacity-50" />
+                  <circle cx="70" cy={130 - (clampedFill * 0.7)} r="1.2" fill="white" className="opacity-55" />
+                  <circle cx="40" cy={130 - (clampedFill * 0.3)} r="0.8" fill="white" className="opacity-45" />
+                  <circle cx="62" cy={130 - (clampedFill * 0.5)} r="1.3" fill="white" className="opacity-50" />
+                </>
+              )}
+              
+              {/* Sugar granule texture lines */}
+              {clampedFill > 20 && (
+                <>
+                  <line x1="25" y1={130 - (clampedFill * 0.5)} x2="35" y2={130 - (clampedFill * 0.45)} stroke="hsl(var(--sugar-granule))" strokeWidth="0.5" className="opacity-30" />
+                  <line x1="50" y1={130 - (clampedFill * 0.6)} x2="65" y2={130 - (clampedFill * 0.55)} stroke="hsl(var(--sugar-granule))" strokeWidth="0.5" className="opacity-25" />
+                </>
+              )}
             </g>
           )}
           
-          {/* Glass shine effect */}
-          <path
-            d="M20 10 L18 120"
+          {/* Glass rim highlight */}
+          <ellipse
+            cx="50"
+            cy="6"
+            rx="30"
+            ry="3"
+            fill="none"
             stroke="hsl(var(--glass-shine))"
-            strokeWidth="3"
-            strokeLinecap="round"
+            strokeWidth="1"
             className="opacity-40"
           />
+          
+          {/* Primary shine effect - left side */}
           <path
-            d="M25 15 L23 50"
+            d="M22 15 L19 115"
             stroke="hsl(var(--glass-shine))"
-            strokeWidth="2"
+            strokeWidth="2.5"
             strokeLinecap="round"
-            className="opacity-30"
+            className="opacity-35"
+          />
+          
+          {/* Secondary shine - shorter highlight */}
+          <path
+            d="M27 20 L25 60"
+            stroke="hsl(var(--glass-shine))"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            className="opacity-25"
+          />
+          
+          {/* Right side subtle reflection */}
+          <path
+            d="M78 25 L80 100"
+            stroke="hsl(var(--glass-shine))"
+            strokeWidth="1"
+            strokeLinecap="round"
+            className="opacity-15"
+          />
+          
+          {/* Glass base thickness */}
+          <ellipse
+            cx="50"
+            cy="132"
+            rx="33"
+            ry="4"
+            fill="hsl(var(--glass-border))"
+            className="opacity-20"
           />
         </svg>
 
