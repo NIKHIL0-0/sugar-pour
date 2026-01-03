@@ -84,13 +84,66 @@ export const SugarVisualizer = () => {
             </div>
           </div>
         </section>
+
+        {/* FAQ Section */}
+        <section className="max-w-3xl mx-auto">
+          <div className="bg-card border border-border p-6 md:p-8">
+            <h2 className="text-xl md:text-2xl font-bold text-foreground font-serif mb-6">
+              Frequently Asked Questions
+            </h2>
+            <p className="text-muted-foreground mb-6">
+              Sugar is a common part of the Indian diet, especially through tea, sweets, and packaged foods. Many people have questions about how much sugar is safe and how it affects health.
+            </p>
+            <div className="space-y-6">
+              <div>
+                <h3 className="font-semibold text-foreground mb-2">Is sugar bad for health?</h3>
+                <p className="text-sm text-muted-foreground">
+                  Sugar is not harmful when consumed in small amounts. Problems usually occur when daily intake goes beyond recommended limits, which often happens due to frequent tea, sweets, and sugary drinks.
+                </p>
+              </div>
+              <div>
+                <h3 className="font-semibold text-foreground mb-2">How much sugar per day is considered safe in India?</h3>
+                <p className="text-sm text-muted-foreground">
+                  Health experts generally suggest limiting added sugar to about 25 grams per day for adults. In practice, many people exceed this amount without realizing it.
+                </p>
+              </div>
+              <div>
+                <h3 className="font-semibold text-foreground mb-2">Is jaggery healthier than white sugar?</h3>
+                <p className="text-sm text-muted-foreground">
+                  Jaggery is less refined and contains small amounts of minerals, but it is still a form of sugar. In terms of calories and blood sugar impact, both act similarly when consumed in excess.
+                </p>
+              </div>
+              <div>
+                <h3 className="font-semibold text-foreground mb-2">Does sugar cause weight gain?</h3>
+                <p className="text-sm text-muted-foreground">
+                  Sugar can contribute to weight gain if it increases overall calorie intake. Sugary drinks are particularly problematic because they are easy to consume in large quantities without feeling full.
+                </p>
+              </div>
+              <div>
+                <h3 className="font-semibold text-foreground mb-2">Are animal bones used to make sugar in India?</h3>
+                <p className="text-sm text-muted-foreground">
+                  In India, sugar is mainly produced from sugarcane and refined using chemical and carbon-based filtration methods. The use of animal bone char is extremely rare and is not a common practice in Indian sugar production.
+                </p>
+              </div>
+              <div>
+                <h3 className="font-semibold text-foreground mb-2">Why do people underestimate how much sugar they consume?</h3>
+                <p className="text-sm text-muted-foreground">
+                  Sugar quantities are usually shown in grams, which are difficult to visualize. Because of this, people often consume more sugar than they think.
+                </p>
+              </div>
+            </div>
+            <p className="text-muted-foreground mt-6 pt-4 border-t border-border">
+              To make sugar quantities easier to understand, visualizing sugar in familiar forms—such as Indian tea glasses—helps people better grasp their actual intake.
+            </p>
+          </div>
+        </section>
       </main>
 
       {/* Footer */}
       <footer className="border-t border-border bg-card/30 mt-12">
         <div className="container mx-auto px-4 py-6 text-center text-sm text-muted-foreground">
           <p>Visualize your sugar intake with familiar Indian tea glasses ☕
-~Built by nick · <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">GitHub</a></p>
+~Built by nick · <a href="https://github.com/NIKHIL0-0/sugar-pour" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">GitHub</a></p>
         </div>
       </footer>
     </div>;
