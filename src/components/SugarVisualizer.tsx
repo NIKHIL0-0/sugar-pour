@@ -66,7 +66,7 @@ export const SugarVisualizer = () => {
                 Sugar Visualization
               </h1>
               <p className="text-sm text-muted-foreground">
-                Using Scalable Indian Tea Glasses (125ml)
+                Using Scalable Indian Tea Glasses (100ml)
               </p>
             </div>
           </div>
@@ -100,7 +100,7 @@ export const SugarVisualizer = () => {
               <div className="space-y-2 text-sm text-muted-foreground">
                 <p>
                   <span className="font-semibold text-foreground">Standard Indian Tea Glass:</span>{" "}
-                  125ml capacity, 8.6cm height, 6.5cm diameter
+                  100ml capacity, 8cm height, 3.5cm base diameter, 5cm top diameter (truncated cylinder)
                 </p>
                 <p>
                   <span className="font-semibold text-foreground">Sugar Density:</span>{" "}
@@ -108,7 +108,7 @@ export const SugarVisualizer = () => {
                 </p>
                 <p>
                   <span className="font-semibold text-foreground">Full Glass:</span>{" "}
-                  ≈ 156 grams of sugar to fill completely
+                  ≈ 125 grams of sugar to fill completely
                 </p>
                 <p className="pt-2 border-t border-border mt-2">
                   For large quantities (&gt;10 glasses), the visualization uses power-of-10 scaling 
