@@ -15,9 +15,9 @@ export const TeaGlass = ({
 }: TeaGlassProps) => {
   const clampedFill = Math.max(0, Math.min(100, fillPercentage));
   
-  // Calculate sugar height - strictly bottom to top
-  const sugarHeight = clampedFill * 1.08;
-  const sugarTop = 126 - sugarHeight;
+  // Calculate sugar height - strictly bottom to top (truncated cylinder: 8cm height)
+  const sugarHeight = clampedFill * 1.12;
+  const sugarTop = 130 - sugarHeight;
   
   // Generate individual sugar crystals with varied shapes - seeded by index for consistency
   const sugarCrystals = useMemo(() => {
@@ -118,59 +118,47 @@ export const TeaGlass = ({
               <rect x="2" y="1" width="0.6" height="0.8" fill="hsl(32, 35%, 82%)" opacity="0.3" />
             </pattern>
 
-            {/* Glass interior clip - sugar stays inside */}
+            {/* Glass interior clip - sugar stays inside (truncated cylinder shape) */}
             <clipPath id={`interior-${index}`}>
-              <path d="M20 16 L17 124 Q17 128 22 128 L78 128 Q83 128 83 124 L80 16 Z" />
+              <path d="M30 18 L22 130 Q22 134 28 134 L72 134 Q78 134 78 130 L70 18 Z" />
             </clipPath>
 
             {/* Glass overlay clip */}
             <clipPath id={`glass-clip-${index}`}>
-              <path d="M14 10 L10 128 Q10 138 22 138 L78 138 Q90 138 90 128 L86 10 Q86 2 78 2 L22 2 Q14 2 14 10" />
+              <path d="M26 10 L18 132 Q18 140 28 140 L72 140 Q82 140 82 132 L74 10 Q74 4 70 4 L30 4 Q26 4 26 10" />
             </clipPath>
           </defs>
 
           {/* === LAYER 1: Sugar fill (behind glass) === */}
           {clampedFill > 0 && !isScaleLabel && (
             <g clipPath={`url(#interior-${index})`}>
-              {/* Base sugar fill with vertical gradient */}
-              <rect
-                x="18"
-                y={sugarTop}
-                width="64"
-                height={sugarHeight + 4}
+              {/* Base sugar fill with vertical gradient - truncated cylinder shape */}
+              <path
+                d={`M${24 + (sugarTop - 18) * 0.07} ${sugarTop} L22 ${sugarTop + sugarHeight + 4} L78 ${sugarTop + sugarHeight + 4} L${76 - (sugarTop - 18) * 0.07} ${sugarTop} Z`}
                 fill={`url(#sugar-body-${index})`}
-                style={{ transition: 'y 0.6s ease, height 0.6s ease' }}
+                style={{ transition: 'd 0.6s ease' }}
               />
 
               {/* Sugar granular texture overlay */}
-              <rect
-                x="18"
-                y={sugarTop}
-                width="64"
-                height={sugarHeight + 4}
+              <path
+                d={`M${24 + (sugarTop - 18) * 0.07} ${sugarTop} L22 ${sugarTop + sugarHeight + 4} L78 ${sugarTop + sugarHeight + 4} L${76 - (sugarTop - 18) * 0.07} ${sugarTop} Z`}
                 fill={`url(#sugar-noise-${index})`}
                 opacity="0.7"
-                style={{ transition: 'y 0.6s ease, height 0.6s ease' }}
+                style={{ transition: 'd 0.6s ease' }}
               />
 
               {/* Inner shadow - left wall */}
-              <rect
-                x="18"
-                y={sugarTop}
-                width="10"
-                height={sugarHeight + 4}
+              <path
+                d={`M${24 + (sugarTop - 18) * 0.07} ${sugarTop} L22 ${sugarTop + sugarHeight + 4} L32 ${sugarTop + sugarHeight + 4} L${34 + (sugarTop - 18) * 0.07} ${sugarTop} Z`}
                 fill={`url(#sugar-shadow-left-${index})`}
-                style={{ transition: 'y 0.6s ease, height 0.6s ease' }}
+                style={{ transition: 'd 0.6s ease' }}
               />
 
               {/* Inner shadow - right wall */}
-              <rect
-                x="72"
-                y={sugarTop}
-                width="10"
-                height={sugarHeight + 4}
+              <path
+                d={`M${66 - (sugarTop - 18) * 0.07} ${sugarTop} L68 ${sugarTop + sugarHeight + 4} L78 ${sugarTop + sugarHeight + 4} L${76 - (sugarTop - 18) * 0.07} ${sugarTop} Z`}
                 fill={`url(#sugar-shadow-right-${index})`}
-                style={{ transition: 'y 0.6s ease, height 0.6s ease' }}
+                style={{ transition: 'd 0.6s ease' }}
               />
 
               {/* Individual sugar crystals throughout */}
@@ -230,11 +218,11 @@ export const TeaGlass = ({
             </g>
           )}
 
-          {/* === LAYER 2: Glass body (on top, transparent) === */}
+          {/* === LAYER 2: Glass body (on top, transparent) - Truncated cylinder shape === */}
           <g>
-            {/* Glass outer body */}
+            {/* Glass outer body - narrower at bottom (3.5cm), wider at top (5cm) */}
             <path
-              d="M14 10 L10 128 Q10 138 22 138 L78 138 Q90 138 90 128 L86 10 Q86 2 78 2 L22 2 Q14 2 14 10"
+              d="M26 10 L18 132 Q18 140 28 140 L72 140 Q82 140 82 132 L74 10 Q74 4 70 4 L30 4 Q26 4 26 10"
               fill={`url(#glass-body-${index})`}
               stroke="hsl(200, 25%, 80%)"
               strokeWidth="0.6"
@@ -242,27 +230,28 @@ export const TeaGlass = ({
 
             {/* Inner glass wall edge */}
             <path
-              d="M18 14 L15 126 Q15 132 22 132 L78 132 Q85 132 85 126 L82 14 Q82 8 78 8 L22 8 Q18 8 18 14"
+              d="M30 14 L22 132 Q22 136 28 136 L72 136 Q78 136 78 132 L70 14 Q70 10 66 10 L34 10 Q30 10 30 14"
               fill="none"
               stroke="hsl(200, 30%, 88%)"
               strokeWidth="0.4"
               opacity="0.5"
             />
 
-            {/* Vertical ribbed flutes */}
-            {Array.from({ length: 12 }, (_, i) => {
-              const x = 18 + i * 5.5;
+            {/* Vertical ribbed flutes - adjusted for truncated shape */}
+            {Array.from({ length: 10 }, (_, i) => {
+              const topX = 28 + i * 4.5;
+              const bottomX = 22 + i * 5.6;
               return (
                 <g key={`flute-${i}`}>
                   <path
-                    d={`M${x} 12 Q${x - 0.8} 72 ${x - 0.4} 130`}
+                    d={`M${topX} 12 Q${(topX + bottomX) / 2 - 0.8} 72 ${bottomX - 0.4} 134`}
                     fill="none"
                     stroke="hsl(200, 20%, 75%)"
                     strokeWidth="0.8"
                     opacity="0.15"
                   />
                   <path
-                    d={`M${x + 1.8} 14 Q${x + 1.5} 72 ${x + 1.6} 128`}
+                    d={`M${topX + 1.5} 14 Q${(topX + bottomX) / 2 + 1} 72 ${bottomX + 1.2} 132`}
                     fill="none"
                     stroke="hsl(200, 50%, 98%)"
                     strokeWidth="0.5"
@@ -272,11 +261,11 @@ export const TeaGlass = ({
               );
             })}
 
-            {/* Glass rim - top */}
+            {/* Glass rim - top (5cm diameter = wider) */}
             <ellipse
               cx="50"
-              cy="5"
-              rx="36"
+              cy="6"
+              rx="26"
               ry="5"
               fill={`url(#rim-gradient-${index})`}
               stroke="hsl(200, 30%, 82%)"
@@ -286,8 +275,8 @@ export const TeaGlass = ({
             {/* Inner rim highlight */}
             <ellipse
               cx="50"
-              cy="7"
-              rx="30"
+              cy="8"
+              rx="22"
               ry="3.5"
               fill="none"
               stroke="hsl(200, 60%, 98%)"
@@ -297,7 +286,7 @@ export const TeaGlass = ({
 
             {/* Rim top shine */}
             <path
-              d="M22 4 Q36 1 50 2 Q64 3 78 4"
+              d="M30 5 Q40 2 50 3 Q60 4 70 5"
               fill="none"
               stroke="white"
               strokeWidth="1.2"
@@ -305,9 +294,9 @@ export const TeaGlass = ({
               opacity="0.6"
             />
 
-            {/* Primary left edge reflection */}
+            {/* Primary left edge reflection - follows taper */}
             <path
-              d="M18 16 Q16 72 15 125"
+              d="M28 16 Q24 72 20 130"
               stroke="hsl(200, 60%, 98%)"
               strokeWidth="2.5"
               strokeLinecap="round"
@@ -316,27 +305,27 @@ export const TeaGlass = ({
             
             {/* Secondary left shine */}
             <path
-              d="M23 20 Q22 55 21 85"
+              d="M32 20 Q29 55 26 90"
               stroke="white"
               strokeWidth="1.5"
               strokeLinecap="round"
               opacity="0.35"
             />
 
-            {/* Right edge subtle reflection */}
+            {/* Right edge subtle reflection - follows taper */}
             <path
-              d="M84 22 Q85 72 86 120"
+              d="M72 18 Q76 72 80 128"
               stroke="hsl(200, 50%, 96%)"
               strokeWidth="1.2"
               strokeLinecap="round"
               opacity="0.25"
             />
 
-            {/* Glass base */}
+            {/* Glass base (3.5cm diameter = narrower) */}
             <ellipse
               cx="50"
-              cy="136"
-              rx="38"
+              cy="138"
+              rx="30"
               ry="4"
               fill="hsl(200, 20%, 80%)"
               opacity="0.2"
@@ -345,8 +334,8 @@ export const TeaGlass = ({
             {/* Base inner reflection */}
             <ellipse
               cx="50"
-              cy="135"
-              rx="30"
+              cy="137"
+              rx="24"
               ry="2.5"
               fill="hsl(200, 40%, 95%)"
               opacity="0.2"

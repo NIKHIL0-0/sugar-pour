@@ -4,9 +4,9 @@ interface GlassGridProps {
   totalGlasses: number;
 }
 
-const GLASS_CAPACITY_ML = 125;
+const GLASS_CAPACITY_ML = 100;
 const SUGAR_DENSITY = 0.8; // 1g sugar = 0.8ml
-const FULL_GLASS_GRAMS = GLASS_CAPACITY_ML / SUGAR_DENSITY; // ~156g
+const FULL_GLASS_GRAMS = GLASS_CAPACITY_ML / SUGAR_DENSITY; // ~125g
 
 export const GlassGrid = ({ totalGlasses }: GlassGridProps) => {
   // Calculate scaling and display logic
